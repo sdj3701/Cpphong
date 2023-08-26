@@ -1,0 +1,40 @@
+#pragma once
+#include "framework.h"
+
+class CObject
+//추상클래스로 선언 했기 때문에 기본 클래스를 받아 사용할 수 없음 
+{
+protected:
+	POINT Position;
+	int Speed;
+	int Direction;
+	void Type();
+public:
+	CObject();
+	CObject(POINT Position, int r);
+	virtual ~CObject();
+	virtual void Update() =0;
+	virtual void Draw(HDC hdc) = 0;
+	virtual bool Collision() = 0;
+	//순수 가상함수 파생 클래스에서 반드시 재정의를 해야하는 멤버 함수
+
+};
+
+class CCircle : public CObject
+//기본 클래스를 받아 사용할 수 없기에 파생클래스 객체를 사용해서 업캐스트를 해야함
+{
+private:
+	int Radius;
+public:
+	CCircle() : CObject() {}
+	CCircle(POINT Position, int r);
+	~CCircle() override;
+
+	void Update() override;
+	void Draw(HDC hdc) override;
+	bool Collision() override;
+};
+
+/*
+
+*/

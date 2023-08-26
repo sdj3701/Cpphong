@@ -1,0 +1,106 @@
+GetStockObject() ->자주쓰는 펜이나 브러쉬는 만들어둠
+CreateBrush() -> 원한는 색상으로 만들기
+
+SelectObject(hdc, 값 넣기) ->원래 것으로 되돌릴때 사용
+
+HPEN hRedPen = CreatePen(PS_SOLID,1,RGB(255,0,0)); ->1
+//직접 펜을 만들어서 DC에 지급
+
+HPEN hDefaultPen = (HPEN)SelectObject(hdc,hRedPen); - >2
+//기본 펜 ID 값을 받아 둠
+
+DeleteObject(hRedPen);
+//다 쓴 팬 삭제 
+------------------------------------------------------------------------
+wParam 은 키보드 정보 값
+사용할 때
+keydown 일때
+switch(wParam)을 넣어
+case 원하는 키:
+원하는 키 값을 얻을 수 있다.
+문자 키보드는 아스키 코드로 사용 (대문자 기준이다.)
+
+
+lParam 은 마우스 정보 값
+
+InvalidateRect(hWnd, NULL, false)  -> 강제로 무효화 영역을 발생
+//지금 화면/ null이면 화면 전체 / 예전에 그렸던걸 남겨둘껀가?
+
+-----------------------------------------------------------------------
+여러개의 물체 깔끔 하게 처리하기
+
+1. 내가 물체를 몇개를 찍어 내야 할지 모르니까 동적 할당으로 받자
+
+struct tObject
+{
+	POINT g_ptObjPos;
+	POINT g_ptObjScale;
+};
+
+vector<tObject> g_vecInfo;
+마우스 좌클릭일때 마우스 위치 정보를 받아옴
+좌상당 기억
+변수 = LOWORD(lParam);
+변수 = HIWORD(lParam);
+bLbtnDown = true;
+// 
+
+마우스 무브
+우하단 기억
+변수 = LOWORD(lParam);
+변수 = HIWORD(lParam);
+
+마우스 무브일 때마다 갱신 받으면 클릭해서 드래그 하는 현상이 이러남
+사각형 함수에다가 
+좌상당 x,y
+우하단 x,y값을 저장
+
+tObjInfo info = {};
+info.g_ptObjPos.x = (g_ptLT.x + g_ptRB.x)/2;
+info.g_ptObjPos.y = (g_ptLT.y + g_ptRB.y)/2;
+//오브젝트에 중앙 정보
+
+info.g_ptObjScale.x = abs(g_ptLT.x - g_ptRB.x);
+info.g_ptObjScale.y = abs(g_ptLT.y - g_ptRB.y);
+// 크기 정보이기 때문에 양수 처리이여야 한다
+
+g_vecInfo.push_back(info);
+bLbtnDown = false;
+
+벡터 안에 있는 애들도 그려줘야함 
+for문을 사용해서 그려주기
+
+물체가 많아 질 수록 깜빡임이 심해짐
+--------------------------------------------------------------------
+메세지가 없으면 winapi는 아무것도 하지않는다는 단점있다
+강제로 일정 메세지를 보내기
+SetTimer(hWnd, 1,100,NULL) ->타이머를 셋팅
+(새로운 윈도우를 설정/ 아이디 값 / 지연시간 / 주소인데 필요 없으니까 NULL)
+
+case WM_TIME
+
+메세지 처리 구조 변경
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

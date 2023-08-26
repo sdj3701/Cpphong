@@ -1,0 +1,53 @@
+템플릿
+ 
+함수 템플릿
+- template<typename T>
+  템플릿 선언 <이름 선언>
+void Print(T a)
+{
+	cout << a << endl;
+}
+
+template<typename T>
+T Add(T a,T b)
+{
+	return a+b;
+}
+
+
+클래스 템플릿
+class Kinght
+{
+private:
+
+public:
+	int _hp = 100;
+}
+
+
+template<typename T>
+
+클래스 템플릿을 사용하기 위해서는 
+연산자 오버로딩을 해야한다
+ ex) <<
+
+ostream & operator << (ostream & os, const Knight & k)
+{
+	os << K._hp
+	return os;
+}
+
+템플릿 특수화
+template<>
+void Print(kinght a)
+{
+	cout << "Knight!!!!!!!" << endl;
+}
+
+
+
+
+
+
+
+ 

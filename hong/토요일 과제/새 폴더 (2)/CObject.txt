@@ -1,0 +1,52 @@
+#include "CObject.h"
+#include "framework.h"
+#include <cstdlib>
+#include <time.h>
+#include <ctime>
+#include <cstdlib>
+
+
+CObject::CObject()
+{
+}
+
+CObject::CObject(POINT Position, int r)
+{
+}
+
+CObject::~CObject()
+{
+
+}
+
+CCircle::CCircle(POINT Position, int r)
+{
+	srand((unsigned int)time(NULL));
+
+	this->Position = Position;
+	this->Radius = r + (rand() % 100);
+}
+
+CCircle::~CCircle()
+{
+}
+
+void CCircle::Update()
+{
+	Position.x += 10;
+	Position.y += 10;
+}
+
+void CCircle::Draw(HDC hdc)
+{
+	Ellipse(hdc, 
+		Position.x - Radius,
+		Position.y - Radius,
+		Position.x + Radius,
+		Position.y + Radius); // 추후 함수로 랜덤하게 나와야함
+}
+
+bool CCircle::Collision()
+{
+	return false;
+}

@@ -1,0 +1,151 @@
+클래스
+	먹는행동
+
+클래스 상속
+	override 먹는행동
+
+virtual 함수가 정의된 클래스 인스턴스(메모리 할당) 할 때
+가리키는 포인터의 크키는 4바이트
+
+인터페이스
+어떤 메소드나 속성을 반드시 시행해야 하는지를 알려준다.
+클래스를 만들 때 일련의 메소드를 빼먹지 않았는지 확인
+interface ISringRatrol
+{
+	멤버 변수//자동으로 public이다
+}
+메소드 내 코드는 없다.
+
+인터페이스 참조변수
+인스턴스를 생성할 수 없지만 인페에스를 참조가능
+Istingpatrol dennis = new IStingPatrol() x
+nectarstinger fred = new nectarstinger()
+	클래스 참조변수 = fred(변수) o
+
+if(bees[i] is INectarColleector) //클래스 is 인터페이스 상속 받았다 표시
+	INectarCollector thisCOllector;
+	thisVollector = bees[i] as INectarCollector; //클래스 as 그거를 받았다 라는 표시
+
+인터페이스 상속을 받으면 클래스 다이어그램은 점선
+
+차이점
+c#은 단일 상속 C++다중 상속
+하지만 C#은 다중 상속을 흉내 낼 수 있음
+
+업케스팅
+자식에서 부모로
+다운 케스팅
+is as 사용하면 됨
+
+appliance powerConsumer = new CoffeeMaker();
+powerConsumer.Consumepower();
+if(powerConsumer is CoffeeMaker)
+sealed
+클래스의 서브클래스를 만들수 없음
+internal
+같은 어셈블리에 속하는 클래스들에 대해선만 public이 됨
+디폴트는 internal
+
+추상 클래스 - 어떠한 형태를 미리 구성을 하고 뭔가 구조적으로 진행되도록 하는 것*****
+interface는 구별해서 구현
+노말 클래스는 안에서 구현
+그러나 안에서 구현안 함
+
+객체 지향 프로그래밍 *********
+- 상속, 추상화, 캡슐화, 다형성
+
+boxing  = 값 형식을 참조 형식으로 변환하는 과정*****	면접 단골 참조 형식 object(클래스)라는 것
+포인터랑 같다
+i -> o의 주소에 넣고 5라는 값을 넣음
+
+unboxing
+참조 형식을 값 형식으로 변환하는 과정
+i->5에 바로 넣음
+
+C#에서는 Heap 메모리 사용으로 부하가 발생됨
+
+Collection
+전부다 값을 넣을 수 있다. 조심히 사용해야함
+
+펄어비스 필기 문제에 나올수 있음
+64비트 파일 처리
+유니코드
+little endian 
+
+big endian
+큰거부터 메모리 처리
+
+이벤트 델리게이트
+sender가 있고 receiver
+델리 게이트는 하나만 받는다 이벤트는 여러명이 받는다
+callback은 델리 게이트를 사용
+
+event 구독 중인 객체들
+callback 지정된 한 객체
+그래서 서로 비슷해 보임 둘다 delegates를 사용하기 때문에
+
+아키텍쳐
+1. 디자인 설계
+2. 객체지향적 구상
+
+data =  필드
+operation - method
+
+Finalizer -소멸자
+
+struct 는 nethods and fields를 가짐
+구조체는 상속 받을수 없고 상속이 안됨 소멸자도 가질 수 없음
+구조체는 인터페이스만 받을 수 있다.
+가평식 데이터이기 때문에 가평식만 가지고 있는게 좋다
+동적 할당 같은걸 넣으면 좋지 않다.
+
+class
+힙
+C++의 인스턴스 멤버변수 = 초기화 값 덮어 씌고
+struct
+가평식 = 스택
+c++의 인스턴스 멤버변수를 선언하고 멤버변수 = 초기화값 같다 따로 사용한다.
+꼭 class는 힙이다 라고 생각 하지 말자 class 자체를 스택에 넣으면 스택으로 작도 된다.
+
+out 
+
+ref포인터 같은 역할
+가평식인데 참조형식으로 변환한다.
+
+optional
+c++ 파라미터에 값을 초기화해주는것
+
+nullable *********
+존재한지 않는 값이 필요할 때 사용
+bool myBool = null; 컴파일 에러 발생
+bool? myNullableInt = null; 사용가능 ?표를 사용하여 컴파일을 해라
+
+확장 메소드
+Extension Methods 기존에 존재하는 클래스(특히, 봉인된 클래스)에 자신만의 메소드를 추가하는 것
+
+LINQ
+다양한 데이터 소스들 db처럼 처리하는 것
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

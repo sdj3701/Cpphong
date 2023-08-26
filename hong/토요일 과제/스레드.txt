@@ -1,0 +1,54 @@
+디폴트 매개 변수
+- 디폴트 매개 변수는 함수 호출에서 실제 매개변수를 생략했을 경우에 실제 매개변수 대신 사용되는 값이다.
+
+기본 적으로 매개변수란 함수를 호출할때 인수로 전달된 값을 함수 내부에서 사용할 수 있게 해주는 변수
+#include <stdio.h>
+
+int plus(int a, int b) // a, b 는 매개변수(parameter)
+{
+    return a + b;
+}
+
+void main()
+{
+    int result = plus(1, 2); // 1, 2 는 인수(argument)
+    printf("%d", result);
+}
+함수 오버로딩
+- 디폴트 매개변수는 매개변수의 개수를 다르게 사용함으로써 같은 함수를 호출할 수 있게 하는 것인 반면에,
+함수 오버로딩이라고도 부르는 함수의 다형은, 서로 다른 여러 개의 함수가 하나의 이름을 공유 하는 것이다.
+여기서 다형이라는 말은 다양한 형태를 가진다는 뜻이다
+예제)
+int myFunction(int x)
+
+//개수 같아도 자료형 다른 경우, 오버로딩 가능
+float myFunction(float x)
+
+//자료형 같지만 개수 다른 경우, 오버로딩 가능
+int myFunction(int s,int y)
+
+//자료형과 개수 모두 다른 경우,오버로딩 가능
+double my Function(double x, double y)
+
+//단지, 변수명만 다른 경우, 오버로딩 가능 x
+int myFunction(int y) 안됨
+
+함수 템플릿 
+template<typename T>
+void Swap(T &a, T&b)
+
+장점으로는
+- 수동으로 데이터형을 바꿀 필요가 없다
+- 자동으로 바꿔주니 시간을 절약하고 코드의 신뢰성을 높여준다.
+- 다양한 데이터형에 대해 같은 알고리즘을 적용하니 여러 개의 함수를 만들 필요가 없다
+
+
+shin ->chose -> main 
+
+
+main -> chose -> shin
+메인에다가 밀기
+
+-----------------------------------
+newshin chose main 
+메인꺼 받아오기(남들 올린거 받기)

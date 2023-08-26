@@ -1,0 +1,286 @@
+string table 캡션이 변경하면 타이틀 이름 변경
+
+InitInstance 함수) 윈도우 생성하는 부분
+
+GetMessage 문자출력하는 부분
+
+RSTR 문자열이 넘어옴
+
+ShowWindow(hWnd, nCmdShow);
+어떻게 윈도우를 보여줄 것인가?
+
+UpdateWindow(hWnd);
+이 이벤트가 발생하면 WM_PAINT에서 해당 메시지를 출력
+
+GetMessage 이벤트가 있을 때만 사용이 된다.
+
+LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+매개변수 1. 신경안써도됨
+	2. 메세지 구별
+	3. 문자 구별
+	4. 키보드 구별
+
+CreateWindowW(szWindowClass ) =     wcex.lpszClassName  = szWindowClass;
+클래스 네임이 서로 같아야 나온다
+
+----------------------------------------------------------------------------------------------------------
+// WinAPP_Proj.cpp : 애플리케이션에 대한 진입점을 정의합니다.
+//
+
+#include "framework.h"
+#include "WinAPP_Proj.h"
+
+#define MAX_LOADSTRING 100
+
+// 전역 변수:
+HINSTANCE hInst;                                // 현재 인스턴스입니다.
+WCHAR szTitle[MAX_LOADSTRING];                  // 제목 표시줄 텍스트입니다.
+WCHAR szWindowClass[MAX_LOADSTRING];            // 기본 창 클래스 이름입니다.
+
+// 이 코드 모듈에 포함된 함수의 선언을 전달합니다:
+ATOM                MyRegisterClass(HINSTANCE hInstance);
+BOOL                InitInstance(HINSTANCE, int);
+LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
+INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
+
+int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
+                     _In_opt_ HINSTANCE hPrevInstance,
+                     _In_ LPWSTR    lpCmdLine,
+                     _In_ int       nCmdShow)
+{
+    UNREFERENCED_PARAMETER(hPrevInstance);
+    UNREFERENCED_PARAMETER(lpCmdLine);
+
+    // TODO: 여기에 코드를 입력합니다.
+
+    // 전역 문자열을 초기화합니다.
+    LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
+    LoadStringW(hInstance, IDC_WINAPPPROJ, szWindowClass, MAX_LOADSTRING);
+    MyRegisterClass(hInstance);
+
+    // 애플리케이션 초기화를 수행합니다:
+    if (!InitInstance (hInstance, nCmdShow))
+    {
+        return FALSE;
+    }
+
+    HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_WINAPPPROJ));
+
+    MSG msg;
+
+    // 기본 메시지 루프입니다:
+    while (GetMessage(&msg, nullptr, 0, 0))
+    {
+        if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
+        {
+            TranslateMessage(&msg);
+            DispatchMessage(&msg);
+        }
+    }
+
+    return (int) msg.wParam;
+}
+
+
+
+//
+//  함수: MyRegisterClass()
+//
+//  용도: 창 클래스를 등록합니다.
+//
+ATOM MyRegisterClass(HINSTANCE hInstance)
+{
+    WNDCLASSEXW wcex;
+
+    wcex.cbSize = sizeof(WNDCLASSEX);
+
+    wcex.style          = CS_HREDRAW | CS_VREDRAW; 
+    wcex.lpfnWndProc    = WndProc;
+    wcex.cbClsExtra     = 0;
+    wcex.cbWndExtra     = 0;
+    wcex.hInstance      = hInstance;
+    wcex.hIcon          = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_WINAPPPROJ));
+    wcex.hCursor        = LoadCursor(nullptr, IDC_ARROW);
+    wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW+3); //숫자를 바꾸면 색이 변한다
+    wcex.lpszMenuName   = MAKEINTRESOURCEW(IDC_WINAPPPROJ);
+    wcex.lpszClassName  = szWindowClass;
+    wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
+
+    return RegisterClassExW(&wcex);
+}
+
+//
+//   함수: InitInstance(HINSTANCE, int)
+//
+//   용도: 인스턴스 핸들을 저장하고 주 창을 만듭니다.
+//
+//   주석:
+//
+//        이 함수를 통해 인스턴스 핸들을 전역 변수에 저장하고
+//        주 프로그램 창을 만든 다음 표시합니다.
+//
+BOOL InitInstance(HINSTANCE hInstance, int nCmdShow) //여기서 윈도우 창을 설정 변경을 해주면 된다
+{
+   hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
+
+   HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW , // WS_OVERLAPPEDWINDOW | WS_VSCROLL 을 추가면 스크롤이 생김
+        200, 300, 1024, 768, nullptr, nullptr, hInstance, nullptr);
+
+   if (!hWnd)
+   {
+      return FALSE;
+   }
+
+   ShowWindow(hWnd, nCmdShow);
+   UpdateWindow(hWnd);
+
+   return TRUE;
+}
+
+//
+//  함수: WndProc(HWND, UINT, WPARAM, LPARAM)
+//
+//  용도: 주 창의 메시지를 처리합니다.
+//
+//  WM_COMMAND  - 애플리케이션 메뉴를 처리합니다.
+//  WM_PAINT    - 주 창을 그립니다.
+//  WM_DESTROY  - 종료 메시지를 게시하고 반환합니다.
+//
+//
+LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+    PAINTSTRUCT ps;
+    HDC hdc;
+
+    static TCHAR msg[100] = L"초기값";
+    static int count;
+
+    //case 함수 마다 다른 지역이기 때문에 값이 유지가 안됨
+    // 값을 유지 하기 위해서는 static을 사용하면 된다
+    switch (message) //message가 호출된때마다 변수가 새롭게 선언된다
+    {
+    case WM_CREATE :
+        //이 친구는 클래스 생성자 처럼 한번만 실행한다
+        //그래서 초기화를 여기서 하는 방법도 있다
+        count = 0;
+
+        break;
+
+
+    case WM_KEYDOWN: //가상 키값은 wParam에 있음
+    {
+        int breakpoint = 999;
+        //누른상태를 체크 해야 할때
+    }
+        break;
+    case WM_KEYUP:
+    {
+        int breakpoint = 999;
+        //누르고 땐 상태 
+    }
+        break;
+    case WM_CHAR:
+    {
+        int breakpoint = 999; // 문자열 받아서 처리
+        hdc = GetDC(hWnd);
+
+        LPCWSTR str = (LPCWSTR)_T("키 눌렀다");
+        TextOut(hdc, 300, 100, _T("키 눌렀다"), _tcslen(str));
+
+        msg[count++] = wParam;
+        // 문자 하나씩 증가
+        msg[count] = NULL;
+
+        TextOut(hdc, 300, 120, msg, _tcslen(msg));
+        //입력 받는 값을 변경 함
+        //( , , , msg , msg의 길이)
+
+
+        ReleaseDC(hWnd, hdc);
+
+    }  
+        break;
+
+    case WM_PAINT:
+    {
+        PAINTSTRUCT ps;
+        HDC hdc = BeginPaint(hWnd, &ps);//시작과
+        // TODO: 여기에 hdc를 사용하는 그리기 코드를 추가합니다...
+
+        ////여기에 내용을 추가
+        //HDC memDC= GetDC(hWnd); //1.페어 구조
+        //ReleaseDC(hWnd, memDC);// 1. 페어 구조 꼭 놔줘야 그림이 잘나옴
+
+        //LPCWSTR str  = (LPCWSTR) _T("Hello WinAPI");
+        // 유니코드 변환
+        //길이를 구하는 것
+        TextOut(hdc, 100, 100, _T("Hello WinAPI"), _tcslen(_T("Hello WinAPI")));
+        //텍스트 출력
+        //     ( 텍스트 시작, 시작 위치,시작 위치 ,텍스트, 텍스트의 길이)
+
+        RECT rc = { 100, 150, 200, 550 };
+        rc.left = 100;
+        rc.top = 150;
+        rc.right = 200;
+        rc.bottom = 550;
+
+        SetTextColor(hdc, RGB(255, 100, 0));
+        //텍스트 컬러를 바꾼다 
+        //          (해당 텍스트, RGB(레드값,그린값,블루값));
+
+        DrawText(hdc, _T("asdfasdfasdf asdfasdfzxdcv"), -1, &rc, DT_WORDBREAK);
+        //텍스트 그리기
+        //      (텍스트 시작 , 출력 텍스트, 텍스트 길이, 출력 좌표 , 위치 이다 여러 기능이 있음 )DT_NOCLIP| DT_CENTER| DT_VCENTER
+
+        EndPaint(hWnd, &ps);//끝
+    }
+    break;
+
+
+    case WM_COMMAND:
+        {
+            int wmId = LOWORD(wParam);
+            // 메뉴 선택을 구문 분석합니다:
+            switch (wmId)
+            {
+            case IDM_ABOUT:
+                DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
+                break;
+            case IDM_EXIT:
+                DestroyWindow(hWnd);
+                break;
+            default:
+                return DefWindowProc(hWnd, message, wParam, lParam);
+            }
+        }
+        break;
+    
+    case WM_DESTROY:
+        PostQuitMessage(0);
+        break;
+    default:
+        return DefWindowProc(hWnd, message, wParam, lParam);
+    }
+    return 0;
+}
+
+// 정보 대화 상자의 메시지 처리기입니다.
+INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+{
+    UNREFERENCED_PARAMETER(lParam);
+    switch (message)
+    {
+    case WM_INITDIALOG:
+        return (INT_PTR)TRUE;
+
+    case WM_COMMAND:
+        if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL)
+        {
+            EndDialog(hDlg, LOWORD(wParam));
+            return (INT_PTR)TRUE;
+        }
+        break;
+    }
+    return (INT_PTR)FALSE;
+}
+
